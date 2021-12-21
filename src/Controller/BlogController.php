@@ -9,7 +9,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,8 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class BlogController extends AbstractController
 {
-    // LIST BLOG
-
+    // LISTING BLOG
     /**
     * @Route("/blogs/", name="list_blog")
     * @Method({"GET"})
@@ -33,6 +31,7 @@ class BlogController extends AbstractController
     }
 
 
+    // CREATING BLOG
     /**
     * @Route("/blogs/create", name="create_blog")
     * @Method({"GET", "POST"})
@@ -70,8 +69,7 @@ class BlogController extends AbstractController
     }
 
 
-    // BLOG DETAILS
-
+    // DETAILING BLOG
     /**
     * @Route("/blogs/detail/{id}", name="detail_blog")
     * @Method({"GET"})
@@ -84,8 +82,9 @@ class BlogController extends AbstractController
             ["blog"=>$blog]
         );
     }
-    // DELETE BLOG
 
+
+    // DELETING BLOG
     /**
     * @Route("/blogs/delete/{id}", name="delete_blog")
     * @Method({"DELETE"})
@@ -133,24 +132,15 @@ class BlogController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            // no need for this as symfony already knows, which form
-            // we are dealing with...
-            // $newBlog = $form->getData();
-
             // save form data into database;
             $entityManager = $doctrine->getManager();
-            // no need to persist, we are refresh the db
-            // $entityManager->persist($newBlog);
             $entityManager->flush();
             return $this->redirectToRoute('list_blog');
         }
-
 
         return $this->render(
             'blogs/edit-blog.html.twig',
             ["form"=>$form->createView()]
         );
     }
-
-
 }

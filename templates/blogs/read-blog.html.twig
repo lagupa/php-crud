@@ -9,9 +9,20 @@
 
   {% for blog in blogs %}
   <li>
-    <a href="/blogs/{{blog.id}}">
+    <a href="/blogs/detail/{{blog.id}}">
       {{blog.id}} - {{blog.title}}
     </a>
+    <div>
+       <a href="/blogs/edit/{{blog.id}}">
+        edit
+      </a>
+
+      <a href="/blogs/delete/{{blog.id}}">
+        delete
+      </a>
+       <br/>
+    <br/>
+    </div>
   </li>
 
   {% endfor %}

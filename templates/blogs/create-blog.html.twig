@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{# Overide Title #}
+{% block title %} Creating New Blog {% endblock %}
+
+{% block body %}
+ <h1>Creating New Blog </h1>
+ {{ form_start(form) }}
+ {{ form_widget(form) }}
+ {{ form_end(form) }}
+{% endblock %}

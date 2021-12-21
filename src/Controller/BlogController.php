@@ -107,5 +107,50 @@ class BlogController extends AbstractController
         return $this->redirectToRoute('list_blog');
     }
 
+    // EDITING BLOG
+    /**
+    * @Route("/blogs/edit/{id}", name="edit_blog")
+    * @Method({"GET", "POST"})
+    */
+    public function editBlog(Request $request, ManagerRegistry $doctrine, $id): Response
+    {
+
+        // find blog to be edited
+        $blog = $doctrine->getRepository(Blog::class)->find($id);
+
+        // create entity manager
+        $entityManager = $doctrine->getManager();
+
+        $form = $this->createFormBuilder($blog)
+        ->add('title', TextType::class,
+           array('attr' => array('class' => "form-control")))
+        ->add('content', TextareaType::class, array(
+            'required' => False, 'attr' => array('class' => 'btn btn-primary')))
+        ->add('save', SubmitType::class, array('label' => 'Save','attr' => array('class' => 'btn btn-primary')))
+        ->getForm();
+
+        // Process Form Data
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            // no need for this as symfony already knows, which form
+            // we are dealing with...
+            // $newBlog = $form->getData();
+
+            // save form data into database;
+            $entityManager = $doctrine->getManager();
+            // no need to persist, we are refresh the db
+            // $entityManager->persist($newBlog);
+            $entityManager->flush();
+            return $this->redirectToRoute('list_blog');
+        }
+
+
+        return $this->render(
+            'blogs/edit-blog.html.twig',
+            ["form"=>$form->createView()]
+        );
+    }
+
 
 }

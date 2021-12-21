@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{# Overide Title #}
+{% block title %} Reading Blog {% endblock %}
+
+{% block body %}
+ <h1>List of Blogs</h1>
+<ul>
+{% if blogs %}
+
+  {% for blog in blogs %}
+  <li>
+    <a href="/blog/{{blog.id}}">
+      {{blog.id}} - {{blog.title}}
+    </a>
+  </li>
+
+  {% endfor %}
+
+{% else %}
+  <p> No Blogs </p>
+{% endif %}
+</ul>
+{% endblock %}
